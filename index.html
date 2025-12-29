@@ -24,25 +24,48 @@
     <link href="https://fonts.googleapis.com/css2?family=Silkscreen&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
+        /* Dark mode variables (default) */
+        :root {
+            --bg-gradient-start: #1f1f1f;
+            --bg-gradient-end: #3b3b3b;
+            --text-color: #f0f0f0;
+            --container-bg: rgba(40, 44, 52, 0.9);
+            --primary-color: #61dafb;
+            --primary-hover: #0097a7;
+            --shadow-color: rgba(0, 0, 0, 0.2);
+            --shadow-hover: rgba(0, 0, 0, 0.3);
+            --input-bg: #282c34;
+            --input-text: #f0f0f0;
+        }
+
+        /* Light mode variables */
+        body.light-theme {
+            --bg-gradient-start: #ffffff;
+            --bg-gradient-end: #e0e0e0;
+            --text-color: #282c34;
+            --container-bg: rgba(255, 255, 255, 0.9);
+            --primary-color: #0097a7;
+            --primary-hover: #61dafb;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --shadow-hover: rgba(0, 0, 0, 0.2);
+            --input-bg: #ffffff;
+            --input-text: #282c34;
+        }
+
         body, html {
             margin: 0;
             padding: 0;
-            font-family: 'Silkscreen', cursive; 
-            background: linear-gradient(135deg, #1f1f1f, #3b3b3b);
-            color: #f0f0f0;
+            font-family: 'Silkscreen', cursive;
+            background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+            color: var(--text-color);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
             text-align: center;
-            transition: background-color 0.3s, color 0.3s;
-            padding: 20px; 
-        }
-
-        .light-theme body, .light-theme html {
-            background: linear-gradient(135deg, #ffffff, #e0e0e0);
-            color: #282c34;
+            transition: background 0.3s ease, color 0.3s ease;
+            padding: 20px;
         }
 
         .container {
@@ -51,24 +74,28 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            border: 2px solid #61dafb; 
-            border-radius: 15px; 
-            background: rgba(40, 44, 52, 0.9); 
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 2px solid var(--primary-color);
+            border-radius: 15px;
+            background: var(--container-bg);
+            box-shadow: 0 8px 30px var(--shadow-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
         }
 
         .container:hover {
             transform: scale(1.02);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 12px 40px var(--shadow-hover);
         }
 
         h1 {
-            font-size: 3.5rem; 
+            font-size: 3.5rem;
             margin-bottom: 20px;
-            color: #61dafb; 
+            color: var(--primary-color);
             text-shadow: 0 0 15px rgba(97, 218, 251, 0.5);
             animation: fadeIn 1s ease-in-out;
+        }
+
+        body.light-theme h1 {
+            text-shadow: 0 0 10px rgba(0, 151, 167, 0.3);
         }
 
         @keyframes fadeIn {
@@ -105,16 +132,26 @@
             margin: 20px 0;
             padding: 12px;
             font-size: 1rem;
-            border: 1px solid #61dafb;
+            border: 1px solid var(--primary-color);
             border-radius: 5px;
             width: 250px;
-            transition: border-color 0.3s, box-shadow 0.3s;
+            background: var(--input-bg);
+            color: var(--input-text);
+            transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
         }
 
         .subdomain-input:focus {
-            border-color: #0097a7;
+            border-color: var(--primary-hover);
             outline: none;
             box-shadow: 0 0 5px rgba(97, 218, 251, 0.5);
+        }
+
+        body.light-theme .subdomain-input {
+            border: 1px solid #0097a7;
+        }
+
+        body.light-theme .subdomain-input:focus {
+            box-shadow: 0 0 5px rgba(0, 151, 167, 0.5);
         }
 
         footer {
@@ -123,32 +160,66 @@
         }
 
         footer a {
-            color: #61dafb; 
+            color: var(--primary-color);
             text-decoration: none;
             transition: color 0.3s;
         }
 
         footer a:hover {
             text-decoration: underline;
-            color: #0097a7;
+            color: var(--primary-hover);
         }
 
         .nav {
             margin-bottom: 20px;
             width: 100%;
             text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            position: relative;
         }
 
         .nav a {
             margin: 0 15px;
-            color: #61dafb;
+            color: var(--primary-color);
             text-decoration: none;
             font-size: 1.2rem;
             transition: color 0.3s;
         }
 
         .nav a:hover {
-            color: #0097a7;
+            color: var(--primary-hover);
+        }
+
+        /* Theme toggle button */
+        .theme-toggle {
+            position: absolute;
+            right: 20px;
+            background: var(--primary-color);
+            border: none;
+            color: var(--bg-gradient-start);
+            cursor: pointer;
+            padding: 10px 15px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px var(--shadow-color);
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1) rotate(15deg);
+            box-shadow: 0 6px 15px var(--shadow-hover);
+        }
+
+        .theme-toggle:active {
+            transform: scale(0.95);
         }
 
         @media (max-width: 600px) {
@@ -162,6 +233,13 @@
                 padding: 10px 20px;
                 font-size: 0.9rem;
             }
+            .theme-toggle {
+                position: static;
+                margin-left: auto;
+            }
+            .nav {
+                padding: 0 10px;
+            }
         }
     </style>
 </head>
@@ -170,6 +248,9 @@
         <a href="index.html">Home</a>
         <a href="/team">Team</a>
         <a herf="https://xsplitter.is-cod.in">XSplitter S 3</a>
+        <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+            <i class="fas fa-moon" id="theme-icon"></i>
+        </button>
     </div>
 
     <div class="container">
@@ -196,6 +277,50 @@
     </footer>
 
     <script>
+        // Theme management
+        function initTheme() {
+            // Check for saved theme preference or default to system preference
+            const savedTheme = localStorage.getItem('theme');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            if (savedTheme === 'light' || (!savedTheme && !systemPrefersDark)) {
+                document.body.classList.add('light-theme');
+                updateThemeIcon(true);
+            } else {
+                document.body.classList.remove('light-theme');
+                updateThemeIcon(false);
+            }
+        }
+
+        function toggleTheme() {
+            const isLight = document.body.classList.toggle('light-theme');
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+            updateThemeIcon(isLight);
+        }
+
+        function updateThemeIcon(isLight) {
+            const icon = document.getElementById('theme-icon');
+            if (icon) {
+                icon.className = isLight ? 'fas fa-sun' : 'fas fa-moon';
+            }
+        }
+
+        // Listen for system theme changes
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            if (!localStorage.getItem('theme')) {
+                if (e.matches) {
+                    document.body.classList.remove('light-theme');
+                    updateThemeIcon(false);
+                } else {
+                    document.body.classList.add('light-theme');
+                    updateThemeIcon(true);
+                }
+            }
+        });
+
+        // Initialize theme on page load
+        initTheme();
+
         function redirectToSubdomain() {
             const subdomain = document.getElementById('subdomainInput').value.trim().toLowerCase();
             if (subdomain && /^[a-z0-9-]+$/.test(subdomain)) {
