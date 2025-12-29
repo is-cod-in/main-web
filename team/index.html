@@ -24,18 +24,45 @@
     <link href="https://fonts.googleapis.com/css2?family=Silkscreen&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
+        /* Dark mode variables (default) */
+        :root {
+            --bg-gradient-start: #1f1f1f;
+            --bg-gradient-end: #3b3b3b;
+            --text-color: #f0f0f0;
+            --container-bg: rgba(40, 44, 52, 0.9);
+            --primary-color: #61dafb;
+            --primary-hover: #0097a7;
+            --shadow-color: rgba(0, 0, 0, 0.2);
+            --shadow-hover: rgba(0, 0, 0, 0.3);
+            --member-bg: rgba(40, 44, 52, 0.9);
+        }
+
+        /* Light mode variables */
+        body.light-theme {
+            --bg-gradient-start: #ffffff;
+            --bg-gradient-end: #e0e0e0;
+            --text-color: #282c34;
+            --container-bg: rgba(255, 255, 255, 0.9);
+            --primary-color: #0097a7;
+            --primary-hover: #61dafb;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --shadow-hover: rgba(0, 0, 0, 0.2);
+            --member-bg: rgba(255, 255, 255, 0.95);
+        }
+
         /* General styling */
         body, html {
             margin: 0;
             padding: 0;
-            font-family: 'Silkscreen', cursive; 
-            background: linear-gradient(135deg, #1f1f1f, #3b3b3b);
-            color: #f0f0f0;
+            font-family: 'Silkscreen', cursive;
+            background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+            color: var(--text-color);
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
-            padding: 20px; 
+            padding: 20px;
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
         /* Navigation styling */
@@ -43,26 +70,64 @@
             margin-bottom: 20px;
             width: 100%;
             text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            position: relative;
         }
 
         .nav a {
             margin: 0 15px;
-            color: #61dafb;
+            color: var(--primary-color);
             text-decoration: none;
             font-size: 1.2rem;
             transition: color 0.3s;
         }
 
         .nav a:hover {
-            color: #0097a7;
+            color: var(--primary-hover);
+        }
+
+        /* Theme toggle button */
+        .theme-toggle {
+            position: absolute;
+            right: 20px;
+            background: var(--primary-color);
+            border: none;
+            color: var(--bg-gradient-start);
+            cursor: pointer;
+            padding: 10px 15px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px var(--shadow-color);
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1) rotate(15deg);
+            box-shadow: 0 6px 15px var(--shadow-hover);
+        }
+
+        .theme-toggle:active {
+            transform: scale(0.95);
         }
 
         /* Styled heading */
         h1 {
-            font-size: 3rem; 
+            font-size: 3rem;
             margin-bottom: 30px;
-            color: #61dafb; 
+            color: var(--primary-color);
             text-shadow: 0 0 10px rgba(97, 218, 251, 0.5);
+        }
+
+        body.light-theme h1 {
+            text-shadow: 0 0 10px rgba(0, 151, 167, 0.3);
         }
 
         /* Team container */
@@ -71,8 +136,8 @@
             flex-direction: column;
             align-items: center;
             gap: 20px;
-            max-width: 1200px; 
-            margin: 0 auto; 
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         /* Members box */
@@ -80,24 +145,25 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 20px; 
+            gap: 20px;
             padding: 20px;
-            background: rgba(40, 44, 52, 0.9);
-            border: 2px solid #61dafb;
-            border-radius: 10px; 
-            width: 100%; 
+            background: var(--container-bg);
+            border: 2px solid var(--primary-color);
+            border-radius: 10px;
+            width: 100%;
+            transition: background 0.3s ease;
         }
 
         /* Individual member container */
         .member {
-            background: rgba(40, 44, 52, 0.9); 
-            border: 2px solid #61dafb; 
-            border-radius: 10px; 
-            padding: 20px; 
-            width: 250px; 
-            transition: transform 0.3s;
-            flex: 1 1 250px; 
-            max-width: 300px; 
+            background: var(--member-bg);
+            border: 2px solid var(--primary-color);
+            border-radius: 10px;
+            padding: 20px;
+            width: 250px;
+            transition: transform 0.3s, background 0.3s ease;
+            flex: 1 1 250px;
+            max-width: 300px;
         }
 
         .member:hover {
@@ -106,14 +172,14 @@
 
         /* Member name and role styling */
         .member h2 {
-            font-size: 1.5rem; 
+            font-size: 1.5rem;
             margin: 10px 0;
-            color: #61dafb;
+            color: var(--primary-color);
         }
 
         .member p {
-            font-size: 1rem; 
-            margin: 0; 
+            font-size: 1rem;
+            margin: 0;
         }
 
         /* Sparkle effects */
@@ -190,44 +256,53 @@
         }
 
         footer a {
-            color: #61dafb; 
+            color: var(--primary-color);
             text-decoration: none;
             transition: color 0.3s;
         }
 
         footer a:hover {
             text-decoration: underline;
-            color: #0097a7;
+            color: var(--primary-hover);
         }
 
         /* Responsive Styles */
         @media (max-width: 768px) {
             h1 {
-                font-size: 2.5rem; 
+                font-size: 2.5rem;
             }
 
             .member {
-                width: 90%; 
-                max-width: 90%; 
+                width: 90%;
+                max-width: 90%;
+            }
+
+            .theme-toggle {
+                position: static;
+                margin-left: auto;
+            }
+
+            .nav {
+                padding: 0 10px;
             }
         }
 
         @media (max-width: 480px) {
             h1 {
-                font-size: 2rem; 
+                font-size: 2rem;
             }
 
             .member {
-                width: 100%; 
-                max-width: 100%; 
+                width: 100%;
+                max-width: 100%;
             }
 
             .member h2 {
-                font-size: 1.2rem; 
+                font-size: 1.2rem;
             }
 
             .member p {
-                font-size: 0.9rem; 
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -236,6 +311,9 @@
     <div class="nav">
         <a href="index.html">Home</a>
         <a href="team.html">Team</a>
+        <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+            <i class="fas fa-moon" id="theme-icon"></i>
+        </button>
     </div>
 
     <h1>Meet Our Team</h1>
@@ -272,6 +350,52 @@
     <footer>
         Made with ❤️ by <a href="https://is-cod.in" target="_blank" rel="noopener noreferrer">is-cod.in</a> team
     </footer>
+
+    <script>
+        // Theme management
+        function initTheme() {
+            // Check for saved theme preference or default to system preference
+            const savedTheme = localStorage.getItem('theme');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            if (savedTheme === 'light' || (!savedTheme && !systemPrefersDark)) {
+                document.body.classList.add('light-theme');
+                updateThemeIcon(true);
+            } else {
+                document.body.classList.remove('light-theme');
+                updateThemeIcon(false);
+            }
+        }
+
+        function toggleTheme() {
+            const isLight = document.body.classList.toggle('light-theme');
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+            updateThemeIcon(isLight);
+        }
+
+        function updateThemeIcon(isLight) {
+            const icon = document.getElementById('theme-icon');
+            if (icon) {
+                icon.className = isLight ? 'fas fa-sun' : 'fas fa-moon';
+            }
+        }
+
+        // Listen for system theme changes
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            if (!localStorage.getItem('theme')) {
+                if (e.matches) {
+                    document.body.classList.remove('light-theme');
+                    updateThemeIcon(false);
+                } else {
+                    document.body.classList.add('light-theme');
+                    updateThemeIcon(true);
+                }
+            }
+        });
+
+        // Initialize theme on page load
+        initTheme();
+    </script>
 
 </body>
 </html>
