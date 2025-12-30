@@ -24,25 +24,42 @@
     <link href="https://fonts.googleapis.com/css2?family=Silkscreen&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
+        :root {
+            --bg-gradient-start: #1f1f1f;
+            --bg-gradient-end: #3b3b3b;
+            --text-color: #f0f0f0;
+            --container-bg: rgba(40, 44, 52, 0.9);
+            --accent-color: #61dafb;
+            --accent-hover: #0097a7;
+            --shadow-color: rgba(0, 0, 0, 0.2);
+            --glow-color: rgba(97, 218, 251, 0.5);
+        }
+
+        [data-theme="light"] {
+            --bg-gradient-start: #ffffff;
+            --bg-gradient-end: #e0e0e0;
+            --text-color: #282c34;
+            --container-bg: rgba(255, 255, 255, 0.95);
+            --accent-color: #21a1f1;
+            --accent-hover: #1a8cd8;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --glow-color: rgba(33, 161, 241, 0.3);
+        }
+
         body, html {
             margin: 0;
             padding: 0;
-            font-family: 'Silkscreen', cursive; 
-            background: linear-gradient(135deg, #1f1f1f, #3b3b3b);
-            color: #f0f0f0;
+            font-family: 'Silkscreen', cursive;
+            background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+            color: var(--text-color);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
             text-align: center;
-            transition: background-color 0.3s, color 0.3s;
-            padding: 20px; 
-        }
-
-        .light-theme body, .light-theme html {
-            background: linear-gradient(135deg, #ffffff, #e0e0e0);
-            color: #282c34;
+            transition: background 0.3s ease, color 0.3s ease;
+            padding: 20px;
         }
 
         .container {
@@ -51,23 +68,23 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            border: 2px solid #61dafb; 
-            border-radius: 15px; 
-            background: rgba(40, 44, 52, 0.9); 
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 2px solid var(--accent-color);
+            border-radius: 15px;
+            background: var(--container-bg);
+            box-shadow: 0 8px 30px var(--shadow-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, border-color 0.3s ease;
         }
 
         .container:hover {
             transform: scale(1.02);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 12px 40px var(--shadow-color);
         }
 
         h1 {
-            font-size: 3.5rem; 
+            font-size: 3.5rem;
             margin-bottom: 20px;
-            color: #61dafb; 
-            text-shadow: 0 0 15px rgba(97, 218, 251, 0.5);
+            color: var(--accent-color);
+            text-shadow: 0 0 15px var(--glow-color);
             animation: fadeIn 1s ease-in-out;
         }
 
@@ -105,16 +122,18 @@
             margin: 20px 0;
             padding: 12px;
             font-size: 1rem;
-            border: 1px solid #61dafb;
+            border: 1px solid var(--accent-color);
             border-radius: 5px;
             width: 250px;
-            transition: border-color 0.3s, box-shadow 0.3s;
+            background: var(--container-bg);
+            color: var(--text-color);
+            transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
         }
 
         .subdomain-input:focus {
-            border-color: #0097a7;
+            border-color: var(--accent-hover);
             outline: none;
-            box-shadow: 0 0 5px rgba(97, 218, 251, 0.5);
+            box-shadow: 0 0 5px var(--glow-color);
         }
 
         footer {
@@ -123,14 +142,14 @@
         }
 
         footer a {
-            color: #61dafb; 
+            color: var(--accent-color);
             text-decoration: none;
             transition: color 0.3s;
         }
 
         footer a:hover {
             text-decoration: underline;
-            color: #0097a7;
+            color: var(--accent-hover);
         }
 
         .nav {
@@ -141,14 +160,43 @@
 
         .nav a {
             margin: 0 15px;
-            color: #61dafb;
+            color: var(--accent-color);
             text-decoration: none;
             font-size: 1.2rem;
             transition: color 0.3s;
         }
 
         .nav a:hover {
-            color: #0097a7;
+            color: var(--accent-hover);
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--container-bg);
+            border: 2px solid var(--accent-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 10px var(--shadow-color);
+            z-index: 1000;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1) rotate(20deg);
+            box-shadow: 0 6px 15px var(--shadow-color);
+        }
+
+        .theme-toggle i {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            transition: color 0.3s ease;
         }
 
         @media (max-width: 600px) {
@@ -166,6 +214,10 @@
     </style>
 </head>
 <body>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <i class="fas fa-moon" id="themeIcon"></i>
+    </button>
+
     <div class="nav">
         <a href="index.html">Home</a>
         <a href="/team">Team</a>
@@ -196,6 +248,63 @@
     </footer>
 
     <script>
+        // Theme management
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const html = document.documentElement;
+
+        // Check for saved theme preference or default to system preference
+        function getPreferredTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                return savedTheme;
+            }
+
+            // Check system preference
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+                return 'light';
+            }
+
+            return 'dark';
+        }
+
+        // Set theme
+        function setTheme(theme) {
+            html.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+
+            // Update icon
+            if (theme === 'light') {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            } else {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+        }
+
+        // Toggle theme
+        function toggleTheme() {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            setTheme(newTheme);
+        }
+
+        // Initialize theme
+        setTheme(getPreferredTheme());
+
+        // Add click event listener
+        themeToggle.addEventListener('click', toggleTheme);
+
+        // Listen for system theme changes
+        if (window.matchMedia) {
+            window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', (e) => {
+                if (!localStorage.getItem('theme')) {
+                    setTheme(e.matches ? 'light' : 'dark');
+                }
+            });
+        }
+
         function redirectToSubdomain() {
             const subdomain = document.getElementById('subdomainInput').value.trim().toLowerCase();
             if (subdomain && /^[a-z0-9-]+$/.test(subdomain)) {
